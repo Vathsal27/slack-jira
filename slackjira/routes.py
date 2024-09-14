@@ -2,6 +2,13 @@ from slackjira import app
 from flask import Flask, request, jsonify
 import logging
 import json
+import sys
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s: %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]  # Output logs to stdout for Render
+)
 
 @app.route('/slack/events', methods=['POST'])
 def handle_slack_event():
@@ -27,7 +34,7 @@ def handle_slack_event():
                 'channel': channel_id,
                 'message': message_text
             }
-            logging.info(json.dumps(response, indent=4))
+            logging.info("Response: %s", json.dumps(response, indent=4))
             return jsonify(response), 200
     
     return jsonify({"error": "No valid event"}), 400
