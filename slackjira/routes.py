@@ -1,8 +1,7 @@
+from slackjira import app
 from flask import Flask, request, jsonify
 import logging
 import json
-
-app = Flask(__name__)
 
 @app.route('/slack/events', methods=['POST'])
 def handle_slack_event():
